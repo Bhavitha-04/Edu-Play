@@ -1,4 +1,6 @@
 **EDUPLAY-Child Care web**
+
+
 In today’s digital age, the exposure of young children to electronic devices and online 
 platforms is increasing at a rapid pace. While digital tools can be highly beneficial for 
 education and cognitive development, unregulated and purposeless usage of mobile phones 
