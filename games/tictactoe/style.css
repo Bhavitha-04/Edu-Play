@@ -1,0 +1,114 @@
+/*body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+  
+  h1 {
+    color: #4CAF50;
+  }
+  
+  .board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .cell {
+    width: 100px;
+    height: 100px;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    cursor: pointer;
+    border: 2px solid #ccc;
+  }
+  
+  button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }*/
+  body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #f3e5f5;
+}
+
+h1 {
+    color: #8e24aa;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 5px;
+    margin: 20px auto;
+    width: 320px;
+    padding: 10px;
+    background-color: #6a1b9a;
+    border-radius: 10px;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    border: 2px solid black;
+    cursor: pointer;
+    background-color: #ffffff;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.cell:hover {
+    background-color: #d1c4e9;
+}
+
+.cell.taken {
+    cursor: not-allowed;
+}
+
+.winning-cell {
+    background-color: #ab47bc !important;
+    color: white !important;
+}
+
+#message {
+    font-size: 20px;
+    margin-top: 10px;
+    color: #7b1fa2;
+    font-weight: bold;
+}
+
+button {
+    background-color: #8e24aa;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #6a1b9a;
+}
+
+  

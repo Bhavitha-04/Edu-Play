@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Homework Scheduler</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f3f0fa;
+      padding: 20px;
+      color: #4a3c69;
+    }
+
+    h1 {
+      text-align: center;
+      color: #6a4f9e;
+    }
+
+    .scheduler {
+      max-width: 700px;
+      margin: auto;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(158, 125, 207, 0.2);
+      padding: 20px;
+    }
+
+    input, select, button {
+      padding: 10px;
+      margin: 5px 0;
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #a78bfa;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #8b6fdd;
+    }
+
+    .task {
+      border-radius: 10px;
+      padding: 10px;
+      margin: 10px 0;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .low { background-color: #90cdf4; }
+    .medium { background-color: #f6ad55; }
+    .high { background-color: #fc8181; }
+
+    .task-details {
+      flex-grow: 1;
+    }
+
+    .completed {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+
+    .delete-btn {
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #5e43a4;
+    }
+  </style>
+</head>
+<body>
+  <h1>Homework Scheduler</h1>
+  <div class="scheduler">
+    <input type="text" id="taskInput" placeholder="Enter homework task">
+    <select id="subject">
+      <option value="Math">Math</option>
+      <option value="Science">Science</option>
+      <option value="English">English</option>
+      <option value="Telugu">Telugu</option>
+      <option value="Hindi">Hindi</option>
+      <option value="Social Studies">Social Studies</option>
+    </select>
+    <select id="priority">
+      <option value="low">Low Priority</option>
+      <option value="medium">Medium Priority</option>
+      <option value="high">High Priority</option>
+    </select>
+    <input type="date" id="dueDate">
+    <button onclick="addTask()">Add Task</button>
+
+    <div id="taskList"></div>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    function saveTasks() {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function daysLeft(date) {
+      const today = new Date();
+      const due = new Date(date);
+      const diff = Math.ceil((due - today) / (1000 * 60 * 60 * 24));
+      return diff >= 0 ? `${diff} day(s) left` : 'Overdue';
+    }
+
+    function renderTasks() {
+      const taskList = document.getElementById('taskList');
+      const message = document.getElementById('message');
+      taskList.innerHTML = '';
+
+      if (tasks.length === 0) {
+        message.textContent = '🎉 All homework completed!';
+      } else {
+        message.textContent = '';
+      }
+
+      tasks.forEach((task, index) => {
+        const div = document.createElement('div');
+        div.className = `task ${task.priority}`;
+        div.innerHTML = `
+          <div class="task-details">
+            <strong>${task.subject}</strong>: ${task.text} 
+            <div><small>📅 ${daysLeft(task.dueDate)}</small></div>
+          </div>
+          <button class="delete-btn" onclick="deleteTask(${index})">✖</button>
+        `;
+        taskList.appendChild(div);
+      });
+    }
+
+    function addTask() {
+      const text = document.getElementById('taskInput').value.trim();
+      const subject = document.getElementById('subject').value;
+      const priority = document.getElementById('priority').value;
+      const dueDate = document.getElementById('dueDate').value;
+
+      if (text && dueDate) {
+        tasks.push({ text, subject, priority, dueDate });
+        saveTasks();
+        renderTasks();
+
+        document.getElementById('taskInput').value = '';
+        document.getElementById('dueDate').value = '';
+      }
+    }
+
+    function deleteTask(index) {
+      tasks.splice(index, 1);
+      saveTasks();
+      renderTasks();
+    }
+
+    renderTasks();
+  </script>
+  <script>
+  const activity = {
+    type: 'homework',
+    title: 'Math Worksheet - Fractions',
+    time: new Date().toLocaleString()
+  };
+
+  let log = JSON.parse(localStorage.getItem('activityLog')) || [];
+  log.push(activity);
+  localStorage.setItem('activityLog', JSON.stringify(log));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+/* Global styles */
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background-color: #f3e5f5;
+  }
+  header {
+    background-color: #d1c4e9;
+  }
+  .container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  section {
+    flex: 1;
+    margin: 10px;
+    padding: 20px;
+  }
+  section:hover {
+    transform: scale(1.05);
+  }
+  

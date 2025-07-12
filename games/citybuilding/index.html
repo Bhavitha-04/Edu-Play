@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pollution Control Game</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #e0f7fa;
+    }
+    .sky {
+      background: linear-gradient(#2683a8, #2792a0);
+      height: 70%;
+      position: relative;
+      overflow: hidden;
+    }
+    .cloud {
+      width: 80px;
+      height: 50px;
+      background: rgb(215, 210, 210);
+      border-radius: 50%;
+      position: absolute;
+      animation: moveClouds 60s linear infinite;
+      opacity: 0.8;
+    }
+    .ground {
+      background: #114011;
+      height: 20%;
+      position: relative;
+    }
+    .road {
+      background: #555;
+      height: 10%;
+    }
+
+    @keyframes moveClouds {
+      0% { left: -100px; top: 30px; }
+      100% { left: 110%; top: 30px; }
+    }
+
+    .menu {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #666;
+      z-index: 1000;
+    }
+    .menu button {
+      background-color: #FFB347;
+      border: none;
+      margin: 5px;
+      padding: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .menu button:hover {
+      background-color: #FFD700;
+    }
+    .carbon-counter {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #90EE90;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+      box-shadow: 0 0 10px #666;
+      z-index: 1000;
+    }
+    .warning {
+      position: absolute;
+      top: 60px;
+      right: 10px;
+      background: #FF6347;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      display: none;
+      z-index: 1000;
+      animation: blinker 1s linear infinite;
+    }
+    @keyframes blinker {
+      50% { opacity: 0; }
+    }
+
+    .item {
+      position: absolute;
+      font-size: 30px;
+      animation: dropIn 0.5s ease-out;
+    }
+    @keyframes dropIn {
+      0% { transform: translateY(-50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .effect {
+      position: absolute;
+      font-size: 16px;
+      font-weight: bold;
+      animation: floatUp 1s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-40px); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="menu">
+    <button onclick="addItem('Park')">🏞 Park</button>
+    <button onclick="addItem('Factory')">🏭 Factory</button>
+    <button onclick="addItem('Building')">🏢 Building</button>
+    <button onclick="addItem('Plant')">🌱 Plant</button>
+    <button onclick="finishGame()">🏁 Finish</button>
+    <button onclick="restartGame()">🔄 Restart</button>
+  </div>
+
+  <div class="carbon-counter" id="carbonCounter">
+    Carbon Footprints: 0
+  </div>
+
+  <div class="warning" id="warningMessage">
+    🚨 City is becoming Unsafe!
+  </div>
+
+  <div class="sky">
+    <div class="cloud" style="top: 50px; left: 100px;"></div>
+    <div class="cloud" style="top: 80px; left: 300px;"></div>
+    <div class="cloud" style="top: 30px; left: 500px;"></div>
+  </div>
+
+  <div class="ground" id="groundArea"></div>
+
+  <div class="road"></div>
+
+  <script>
+    let carbonFootprints = 0;
+    let counts = {
+      Park: 0,
+      Factory: 0,
+      Building: 0,
+      Plant: 0
+    };
+    let moves = 0;
+    let usedPositions = [];
+
+    const carbonCounter = document.getElementById('carbonCounter');
+    const groundArea = document.getElementById('groundArea');
+    const warningMessage = document.getElementById('warningMessage');
+
+    function addItem(type) {
+      moves++;
+
+      const item = document.createElement('div');
+      item.className = 'item';
+      item.style.top = '20%';
+
+      let leftPos;
+      do {
+        leftPos = Math.floor(Math.random() * 90);
+      } while (usedPositions.some(pos => Math.abs(pos - leftPos) < 8));
+      usedPositions.push(leftPos);
+
+      item.style.left = `${leftPos}%`;
+
+      let change = 0;
+      if (type === 'Park') {
+        item.textContent = '🏞';
+        change = -50;
+        counts.Park++;
+      } else if (type === 'Factory') {
+        item.textContent = '🏭';
+        change = 40;
+        counts.Factory++;
+      } else if (type === 'Building') {
+        item.textContent = '🏢';
+        change = 25;
+        counts.Building++;
+      } else if (type === 'Plant') {
+        item.textContent = '🌱';
+        change = -10;
+        counts.Plant++;
+      }
+
+      carbonFootprints += change;
+      if (carbonFootprints < 0) carbonFootprints = 0;
+
+      groundArea.appendChild(item);
+      showEffect(change, leftPos);
+
+      updateCounter();
+      checkWarning();
+    }
+
+    function showEffect(change, left) {
+      const effect = document.createElement('div');
+      effect.className = 'effect';
+      effect.style.left = `${left}%`;
+      effect.style.top = '15%';
+      effect.style.color = change > 0 ? 'red' : 'green';
+      effect.textContent = (change > 0 ? '+' : '') + change;
+
+      groundArea.appendChild(effect);
+      setTimeout(() => groundArea.removeChild(effect), 1000);
+    }
+
+    function updateCounter() {
+      carbonCounter.textContent = `Carbon Footprints: ${carbonFootprints}`;
+    }
+
+    function checkWarning() {
+      warningMessage.style.display = carbonFootprints >= 75 ? 'block' : 'none';
+    }
+
+    function finishGame() {
+      let safety = "SAFE to live!";
+      if (carbonFootprints >= 75) safety = "NOT SAFE to live!";
+      alert(`🏁 GAME SUMMARY:
+- Parks Placed: ${counts.Park}
+- Plants Placed: ${counts.Plant}
+- Buildings Placed: ${counts.Building}
+- Factories Placed: ${counts.Factory}
+
+🌎 Final Carbon Footprints: ${carbonFootprints}
+🎯 Total Moves: ${moves}
+🏡 City Status: ${safety}`);
+    }
+
+    function restartGame() {
+      carbonFootprints = 0;
+      counts = { Park: 0, Factory: 0, Building: 0, Plant: 0 };
+      moves = 0;
+      usedPositions = [];
+      groundArea.innerHTML = '';
+      updateCounter();
+      checkWarning();
+    }
+  </script>
+
+</body>
+</html>

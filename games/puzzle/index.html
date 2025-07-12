@@ -1,0 +1,269 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puzzle Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>🧩 Puzzle Game 🧩</h1>
+    <div class="puzzle-container">
+        <div id="puzzle-board">
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Math Puzzle Fun</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #f3e5f5;
+      margin: 0;
+      padding: 0;
+      color: #7b1fa2;
+    }
+    header {
+      background-color: #6a1b9a;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 24px;
+    }
+    .grade-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      background-color: #d1c4e9;
+      padding: 10px;
+    }
+    .grade-buttons button {
+      background-color: #ab47bc;
+      border: none;
+      padding: 10px 20px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+    }
+    .grade-buttons button:hover {
+      background-color: #8e24aa;
+    }
+    .container {
+      text-align: center;
+      padding: 20px;
+      background-color: #ffffff;
+      min-height: 60vh;
+    }
+    #question {
+      font-size: 22px;
+      margin: 20px;
+    }
+    #emoji-container {
+      font-size: 48px;
+    }
+    input, button {
+      font-size: 18px;
+      padding: 8px;
+      margin: 8px;
+      border-radius: 5px;
+    }
+    .footer {
+      text-align: center;
+      background-color: #6a1b9a;
+      color: white;
+      padding: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <header>Math Puzzle Session</header>
+  <div class="grade-buttons">
+    <button onclick="startGame(1)">Grade 1</button>
+    <button onclick="startGame(2)">Grade 2</button>
+    <button onclick="startGame(3)">Grade 3</button>
+    <button onclick="startGame(4)">Grade 4</button>
+    <button onclick="startGame(5)">Grade 5</button>
+  </div>
+  <div class="container">
+    <div id="question"></div>
+    <div id="emoji-container"></div>
+    <input type="number" id="answer" placeholder="Your answer"/>
+    <div>
+      <button onclick="checkAnswer()">Submit</button>
+      <button onclick="skipQuestion()">Skip</button>
+    </div>
+    <div id="feedback"></div>
+  </div>
+  <div class="footer">Designed with love for children in Grades 1–5</div>
+
+  <script>
+    const emojis = ["🍎", "🍌", "🍇", "🍓", "🍍", "🥝", "🍒", "🥥", "🫐", "🥕", "🌽", "🍅", "🥑", "🍉", "🥭", "🧃", "🍫", "🧁", "🍬", "🍭", "🐶", "🐱", "🐭", "🐰", "🐼", "🐸", "🐻", "🐯", "🐷", "🐤", "🐧", "🐟", "🐙", "🦋", "🐞"];
+    
+    const grade4Riddles = [
+      { question: "I am a number divisible by 5 and between 30 and 40. What am I?", answer: 35 },
+      { question: "What is double of 7?", answer: 14 },
+      { question: "I am an even number between 50 and 60. What am I?", answer: 52 },
+      { question: "I am 2 years younger than 10. What number am I?", answer: 8 },
+      { question: "I am the square of 8.", answer: 64 },
+      { question: "I am a number between 10 and 20 and divisible by 3.", answer: 12 },
+      { question: "What comes next: 5, 10, 15, ___?", answer: 20 },
+      { question: "I am half of 50. What number am I?", answer: 25 },
+      { question: "Double of 18 is?", answer: 36 },
+      { question: "I am the product of 6 and 3. What am I?", answer: 18 },
+      { question: "I am 10 more than 33. What am I?", answer: 43 },
+      { question: "What comes next: 1, 4, 9, 16, ___?", answer: 25 },
+      { question: "I am a multiple of 9 between 40 and 60.", answer: 45 },
+      { question: "Subtract 9 from 30. What am I?", answer: 21 },
+      { question: "Add 14 and 28. What do you get?", answer: 42 },
+      { question: "What is the sum of the first 5 even numbers?", answer: 30 },
+      { question: "What comes next: 3, 6, 12, 24, ___?", answer: 48 },
+      { question: "I am 3 less than 50. What number am I?", answer: 47 },
+      { question: "8 + ? = 15", answer: 7 },
+      { question: "I am 3 times 11. What am I?", answer: 33 },
+      { question: "What comes next: 10, 20, 30, ___?", answer: 40 },
+      { question: "Divide 64 by 8. What do you get?", answer: 8 },
+      { question: "What is 7 squared?", answer: 49 },
+      { question: "A dozen eggs equals how many?", answer: 12 },
+      { question: "What is the next multiple of 6 after 36?", answer: 42 },
+      { question: "I am 25 more than 25. What number am I?", answer: 50 },
+      { question: "What comes before 100 in tens?", answer: 90 },
+      { question: "I am the smallest two-digit odd number.", answer: 11 },
+      { question: "What is the difference between 88 and 44?", answer: 44 },
+      { question: "I am the next odd number after 49.", answer: 51 },
+      { question: "What is the double of 22?", answer: 44 },
+      { question: "I am 6 more than 36. What number am I?", answer: 42 },
+    ];
+
+    const grade5Expressions = [
+      { expression: "(5 + 3) * 2", answer: 16 },
+      { expression: "10 + 2 * 3", answer: 16 },
+      { expression: "(12 - 4) / 2", answer: 4 },
+      { expression: "6 * (2 + 1)", answer: 18 },
+      { expression: "8 + 4 - 2 * 3", answer: 6 },
+      { expression: "6 + 3 * 4", answer: 18 },
+      { expression: "(8 + 2) * 5", answer: 50 },
+      { expression: "100 - 30 / 5", answer: 94 },
+      { expression: "50 / (5 + 5) + 7", answer: 12 },
+      { expression: "(7 * 3) + (9 - 4)", answer: 26 },
+      { expression: "60 / 2 + 8", answer: 38 },
+      { expression: "6 + (3 + 2) * 4", answer: 26 },
+      { expression: "18 - 4 + 3 * 2", answer: 20 },
+      { expression: "48 / 4 * 2 + 1", answer: 25 },
+      { expression: "(9 + 3) * (4 - 2)", answer: 24 },
+      { expression: "80 - 12 / 4 + 6", answer: 77 },
+      { expression: "20 + 16 / (4 + 4)", answer: 22 },
+      { expression: "5 * (6 + 4)", answer: 50 },
+      { expression: "99 - (9 * 3)", answer: 72 },
+      { expression: "100 / (2 * 5)", answer: 10 },
+      { expression: "(10 + 2) * (6 - 1)", answer: 60 },
+      { expression: "72 / 6 + 8", answer: 20 },
+      { expression: "50 - 5 * 6", answer: 20 },
+      { expression: "12 + 36 / (3 * 3)", answer: 16 },
+      { expression: "(9 * 2) + (8 / 2)", answer: 22 },
+      { expression: "7 * (8 - 3)", answer: 35 },
+      { expression: "100 / 10 + 3 * 4", answer: 22 },
+      { expression: "45 - (15 / 3) + 6", answer: 36 },
+      { expression: "81 / (6 + 3)", answer: 9 },
+      { expression: "(3 + 4) * (5 - 2)", answer: 21 },
+      { expression: "10 * 2 + 5 - 3", answer: 22 },
+      { expression: "28 / 4 + 6 * 2", answer: 20 },
+      { expression: "6 + 8 * (3 - 1)", answer: 22 },
+      { expression: "(16 - 4) * 3", answer: 36 },
+      { expression: "60 / 3 - 2 * 5", answer: 10 },
+      { expression: "4 * 4 + 3 * 3", answer: 25 },
+      { expression: "(8 * 5) - (12 / 3)", answer: 36 },
+      { expression: "90 / (9 + 6)", answer: 6 },
+      { expression: "5 * (10 - 2) + 4", answer: 44 },
+      { expression: "(100 - 60) / 4", answer: 10 },
+      { expression: "8 + 3 * (9 - 4)", answer: 23 },
+      { expression: "(6 + 3) * 2 + 4", answer: 22 },
+      { expression: "81 / 9 + 5 * 2", answer: 19 },
+      { expression: "7 + 8 - 3 * 2", answer: 9 },
+      { expression: "(12 * 2) + (16 / 4)", answer: 28 },
+      { expression: "9 * (5 - 2) + 6", answer: 33 },
+      { expression: "50 / (2 + 3) + 7", answer: 17 },
+      { expression: "(6 + 6) * (4 - 2)", answer: 24 },
+      { expression: "18 / (3 + 3) * 4", answer: 12 },
+      { expression: "10 * 2 - 5 + 3", answer: 18 },
+      { expression: "(7 + 3) * 2 - 4", answer: 16 },
+      { expression: "20 - 3 * 4 + 2", answer: 10 },
+      { expression: "10 * (2 + 3) - 5", answer: 45 },
+      { expression: "(25 / 5) * (6 - 1)", answer: 25 },
+      { expression: "16 / 4 + 12 * 2", answer: 28 },
+    ];
+
+    let currentGrade = null;
+    let currentQuestion = {};
+    let currentType = ""; // "emoji", "math", "riddle", or "bodmas"
+
+    function startGame(grade) {
+      currentGrade = grade;
+      nextQuestion();
+    }
+
+    function nextQuestion() {
+      document.getElementById("feedback").textContent = "";
+      document.getElementById("answer").value = "";
+      document.getElementById("emoji-container").textContent = "";
+      let q = "";
+      if (currentGrade === 1) {
+        const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+        const count = Math.floor(Math.random() * 9) + 1;
+        q = `How many ${emoji} are there?`;
+        document.getElementById("emoji-container").textContent = emoji.repeat(count);
+        currentQuestion = { answer: count };
+        currentType = "emoji";
+      } else if (currentGrade === 2) {
+        const a = Math.floor(Math.random() * 50);
+        const b = Math.floor(Math.random() * 50);
+        const op = Math.random() > 0.5 ? '+' : '-';
+        q = `${a} ${op} ${b} = ?`;
+        currentQuestion = { answer: eval(`${a}${op}${b}`) };
+        currentType = "math";
+      } else if (currentGrade === 3) {
+        const a = Math.floor(Math.random() * 12) + 1;
+        const b = Math.floor(Math.random() * 12) + 1;
+        const op = Math.random() > 0.5 ? '*' : '/';
+        const qVal = op === '*' ? `${a} x ${b}` : `${a * b} ÷ ${b}`;
+        const ans = op === '*' ? a * b : a;
+        q = `${qVal} = ?`;
+        currentQuestion = { answer: ans };
+        currentType = "math";
+      } else if (currentGrade === 4) {
+        currentQuestion = grade4Riddles[Math.floor(Math.random() * grade4Riddles.length)];
+        q = currentQuestion.question;
+        currentType = "riddle";
+      } else if (currentGrade === 5) {
+        currentQuestion = grade5Expressions[Math.floor(Math.random() * grade5Expressions.length)];
+        q = `Solve: ${currentQuestion.expression}`;
+        currentType = "bodmas";
+      }
+      document.getElementById("question").textContent = q;
+    }
+
+    function checkAnswer() {
+      const userAns = parseInt(document.getElementById("answer").value);
+      if (userAns === currentQuestion.answer) {
+        document.getElementById("feedback").textContent = "Correct! Moving to next...";
+        setTimeout(nextQuestion, 1000);
+      } else {
+        document.getElementById("feedback").textContent = "Oops! Try again!";
+      }
+    }
+
+    function skipQuestion() {
+      nextQuestion();
+    }
+  </script>
+</body>
+</html>

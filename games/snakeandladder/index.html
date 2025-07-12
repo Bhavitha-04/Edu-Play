@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Snake and Ladder</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f3e5f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: #7b1fa2;
+    }
+
+    h1 {
+      color: #8e24aa;
+      margin-bottom: 10px;
+    }
+
+    #board {
+      display: grid;
+      grid-template-columns: repeat(10, 60px);
+      grid-template-rows: repeat(10, 60px);
+      gap: 2px;
+      background-color: #6a1b9a;
+      padding: 4px;
+      margin: 10px 0;
+    }
+
+    .cell {
+      width: 60px;
+      height: 60px;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #7b1fa2;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 2px #aaa;
+    }
+
+    .cell.snake .emoji,
+    .cell.ladder .emoji {
+      font-size: 20px;
+      position: absolute;
+    }
+
+    .cell.snake .emoji {
+      top: 2px;
+      left: 2px;
+    }
+
+    .cell.ladder .emoji {
+      bottom: 2px;
+      right: 2px;
+    }
+
+    .player {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      position: absolute;
+      z-index: 2;
+    }
+
+    .player1 { background-color: red; bottom: 2px; left: 2px; }
+    .player2 { background-color: blue; bottom: 2px; right: 2px; }
+    .player3 { background-color: green; top: 2px; left: 2px; }
+    .player4 { background-color: orange; top: 2px; right: 2px; }
+
+    button {
+      padding: 10px 20px;
+      background-color: #ab47bc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #8e24aa;
+    }
+
+    select {
+      padding: 6px 12px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      background-color: #d1c4e9;
+      border: 1px solid #ab47bc;
+      color: #7b1fa2;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🐍 Snake and Ladder 🪜</h1>
+  <label for="playerCount">Select number of players:</label>
+  <select id="playerCount" onchange="setPlayers(this.value)">
+    <option value="1">1 Player (vs Computer)</option>
+    <option value="2" selected>2 Players</option>
+    <option value="3">3 Players</option>
+    <option value="4">4 Players</option>
+  </select>
+
+  <div id="board"></div>
+  <button onclick="rollDice()">Roll Dice 🎲</button>
+  <p id="status"></p>
+
+  <script>
+    const board = document.getElementById('board');
+    const statusText = document.getElementById('status');
+    const size = 100;
+    let currentPlayer = 0;
+    let totalPlayers = 2;
+    let positions = [1, 1, 1, 1];
+
+    const snakes = {
+      98: 45,
+      85: 24,
+      66: 52,
+      43: 17,
+      25: 5
+    };
+
+    const ladders = {
+      4: 14,
+      12: 36,
+      28: 47,
+      39: 60,
+      61: 79,
+      70: 90
+    };
+
+    function createBoard() {
+      board.innerHTML = '';
+      for (let i = size; i > 0; i--) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.id = 'cell-' + i;
+        cell.innerText = i;
+
+        if (snakes[i]) {
+          cell.classList.add('snake');
+          const emoji = document.createElement('div');
+          emoji.textContent = "🐍";
+          emoji.className = "emoji";
+          cell.appendChild(emoji);
+        }
+
+        if (ladders[i]) {
+          cell.classList.add('ladder');
+          const emoji = document.createElement('div');
+          emoji.textContent = "🪜";
+          emoji.className = "emoji";
+          cell.appendChild(emoji);
+        }
+
+        board.appendChild(cell);
+      }
+    }
+
+    function updatePositions() {
+      document.querySelectorAll('.player').forEach(p => p.remove());
+      positions.slice(0, totalPlayers).forEach((pos, index) => {
+        const player = document.createElement('div');
+        player.classList.add('player', 'player' + (index + 1));
+        const cell = document.getElementById('cell-' + pos);
+        if (cell) cell.appendChild(player);
+      });
+    }
+
+    function rollDice(auto = false) {
+      const dice = Math.floor(Math.random() * 6) + 1;
+      let nextPos = positions[currentPlayer] + dice;
+      let message = `Player ${currentPlayer + 1} rolled a ${dice}. `;
+
+      if (nextPos > 100) {
+        message += "Need exact number to win.";
+      } else {
+        positions[currentPlayer] = nextPos;
+
+        if (snakes[nextPos]) {
+          message += `Bitten! 🐍 Down to ${snakes[nextPos]}. `;
+          positions[currentPlayer] = snakes[nextPos];
+        } else if (ladders[nextPos]) {
+          message += `Climbed! 🪜 Up to ${ladders[nextPos]}. `;
+          positions[currentPlayer] = ladders[nextPos];
+        } else {
+          message += `Moved to ${positions[currentPlayer]}.`;
+        }
+
+        if (positions[currentPlayer] === 100) {
+          statusText.textContent = `🏆 Player ${currentPlayer + 1} wins the game!`;
+          positions = Array(4).fill(1);
+          updatePositions();
+          return;
+        }
+      }
+
+      updatePositions();
+      statusText.textContent = message;
+      currentPlayer = (currentPlayer + 1) % totalPlayers;
+
+      // Auto roll for computer in 1-player mode
+      if (totalPlayers === 2 && document.getElementById('playerCount').value === "1" && currentPlayer === 1) {
+        setTimeout(() => rollDice(true), 1000);
+      }
+    }
+
+    function setPlayers(count) {
+      totalPlayers = parseInt(count);
+      positions = Array(4).fill(1);
+      currentPlayer = 0;
+      updatePositions();
+      statusText.textContent = '';
+    }
+
+    createBoard();
+    updatePositions();
+  </script>
+</body>
+</html>

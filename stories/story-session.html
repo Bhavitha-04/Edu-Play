@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Story Session</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f7f2ff;
+      padding: 20px;
+    }
+
+    .story-session {
+      max-width: 1000px;
+      margin: auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 12px rgba(140, 98, 180, 0.2);
+      border: 2px solid #d1c2e0;
+    }
+
+    .story-session h2 {
+      text-align: center;
+      color: #5e4786;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .story-card {
+      background: #efe4ff;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid #d8c4f2;
+      text-align: center;
+      position: relative;
+    }
+
+    .story-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .story-card h3 {
+      color: #4f3a73;
+      margin-bottom: 8px;
+    }
+
+    .story-card p {
+      color: #6c4e9c;
+      font-size: 14px;
+      min-height: 40px;
+    }
+
+    .story-card button, .story-card a.pdf-link {
+      background-color: #a586d6;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      display: inline-block;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .story-card button:hover, .story-card a.pdf-link:hover {
+      background-color: #8a6bbd;
+    }
+
+    .story-card button:disabled {
+      background-color: #c2afd6;
+      cursor: default;
+    }
+
+    .story-card.read {
+      background: #f3eaff;
+      border: 2px dashed #bfa3dd;
+    }
+
+    .read-check {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #9e7bc2;
+      color: white;
+      border-radius: 50%;
+      padding: 4px 8px;
+      font-size: 12px;
+      display: none;
+    }
+
+    .story-card.read .read-check {
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="story-session">
+    <h2>Story Session</h2>
+
+    <div class="story-grid">
+      <!-- Story 1 -->
+      <div class="story-card" id="story-rabbit">
+        <div class="read-check">✔</div>
+        <img src="images/The_Clever_Rabbit.png" alt="The Clever Rabbit" />
+        <h3>The Clever Rabbit</h3>
+        <p>A smart rabbit tricks a lion and saves the forest animals.</p>
+        <button onclick="markAsRead('story-rabbit', this)">Mark as Read</button>
+        <a class="pdf-link" href="pdfs/The_Clever_Rabbit_Story.pdf" target="_blank">Read PDF</a>
+      </div>
+
+      <!-- Story 2 -->
+      <div class="story-card" id="story-fish">
+        <div class="read-check">✔</div>
+        <img src="images/The_Brave_Little_Fish.png" alt="The Brave Little Fish" />
+        <h3>The Brave Little Fish</h3>
+        <p>Finny the fish learns to face his fears and help others.</p>
+        <button onclick="markAsRead('story-fish', this)">Mark as Read</button>
+        <a class="pdf-link" href="pdfs/The_Brave_Little_Fish_Story.pdf" target="_blank">Read PDF</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function markAsRead(cardId, button) {
+      const card = document.getElementById(cardId);
+      card.classList.add("read");
+      button.disabled = true;
+      button.innerText = "Read ✓";
+    }
+  </script>
+<script>
+  const activity = {
+    type: 'story',
+    title: 'The Clever Rabbit',
+    time: new Date().toLocaleString()
+  };
+
+  let log = JSON.parse(localStorage.getItem('activityLog')) || [];
+  log.push(activity);
+  localStorage.setItem('activityLog', JSON.stringify(log));
+</script>
+
+</body>
+</html>

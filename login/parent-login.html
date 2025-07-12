@@ -1,0 +1,1012 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Parent Login</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Parent Login</h2>
+    <input type="text" id="username" placeholder="Username or Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="parentLogin()">Login</button>
+  </div>
+  <div id="parent-dashboard" style="display: none;">
+    <h2>Welcome, Parent!</h2>
+    <button onclick="location.href='homework.html'">Homework Scheduler</button>
+    <button onclick="location.href='stories.html'">Story Sessions</button>
+    <button onclick="location.href='progress.html'">Track Progress</button>
+  </div>
+  
+  <script>
+    function parentLogin() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+      document.getElementById('login-container').style.display = 'none';
+document.getElementById('parent-dashboard').style.display = 'block';
+
+      if (user && pass) {
+        // Redirect to parent dashboard (e.g., homework scheduler or parental controls)
+        window.location.href = "../homework_scheduler.html";
+      } else {
+        alert("Please enter valid credentials.");
+      }
+    }
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Child Details Form</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0eaff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .form-card {
+      background-color: #e5d1f2;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 400px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      background-color: #a678d2;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #8f5bc9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-card">
+    <h2>Enter Child Details</h2>
+    <form id="childForm">
+      <label for="childName">Child's Name:</label>
+      <input type="text" id="childName" name="childName" required>
+
+      <label for="grade">Grade:</label>
+      <input type="text" id="grade" name="grade" required>
+
+      <label for="age">Age:</label>
+      <input type="number" id="age" name="age" required>
+
+      <label for="dob">Date of Birth:</label>
+      <input type="date" id="dob" name="dob" required>
+
+      <label for="parentName">Parent's Name:</label>
+      <input type="text" id="parentName" name="parentName" required>
+
+      <label for="parentEmail">Parent's Email:</label>
+      <input type="email" id="parentEmail" name="parentEmail" required>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("childForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Child details submitted successfully!");
+      // Here you can add code to save the data or redirect
+    });
+  </script>
+
+</body>
+</html>-->
+<!--<div class="summary-section">
+      <h3>Activity Summary</h3>
+
+      <h4>📘 Homework Completed:</h4>
+      <ul id="homeworkList">
+        <li>Math - Worksheet 1</li>
+        <li>Science - Project on Plants</li>
+        <li>English - Essay Writing</li>
+      </ul>
+
+      <h4>📖 Stories Read:</h4>
+      <ul id="storiesList">
+        <li>The Clever Rabbit</li>
+        <li>The Brave Little Fish</li>
+        <li>Kindness Wins</li>
+      </ul>
+
+      <h4>🎯 Games Played:</h4>
+      <ul id="gamesList">
+        <li>Tic-Tac-Toe</li>
+        <li>Word Cookies</li>
+        <li>City Building</li>
+      </ul>
+    </div>
+  </div>-->
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Parent Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0eaff;
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background-color: #e5d1f2;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #a678d2;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #8f5bc9;
+    }
+
+    .summary-section {
+      margin-top: 40px;
+    }
+
+    .summary-section h4 {
+      margin-top: 25px;
+      color: #4c3b70;
+    }
+
+    ul {
+      list-style-type: disc;
+      margin-left: 25px;
+    }
+
+    .divider {
+      margin: 30px 0;
+      height: 2px;
+      background-color: #c5a4e7;
+    }
+
+    .child-details {
+      background-color: #fff3ff;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Parent Dashboard</h2>
+<h2>Child Activity Summary</h2>
+<div id="activityLog"></div>
+
+<button onclick="resetActivityLog()" style="margin-top: 10px; padding: 8px 16px; background-color: #a678d6; color: white; border: none; border-radius: 6px; cursor: pointer;">
+  Reset Activity Log
+</button>
+
+    <form id="childForm">
+      <label for="childName">Child's Name:</label>
+      <input type="text" id="childName" required>
+
+      <label for="grade">Grade:</label>
+      <input type="text" id="grade" required>
+
+      <label for="age">Age:</label>
+      <input type="number" id="age" required>
+
+      <label for="dob">Date of Birth:</label>
+      <input type="date" id="dob" required>
+
+      <label for="parentName">Parent's Name:</label>
+      <input type="text" id="parentName" required>
+
+      <label for="parentEmail">Parent's Email:</label>
+      <input type="email" id="parentEmail" required>
+
+      <button type="submit">Submit Child Details</button>
+    </form>
+
+    <div id="childInfoDisplay" class="child-details" style="display:none;">
+      <h4>👨‍👩‍👧‍👦 Saved Child Info</h4>
+      <p><strong>Name:</strong> <span id="displayName"></span></p>
+      <p><strong>Grade:</strong> <span id="displayGrade"></span></p>
+      <p><strong>Age:</strong> <span id="displayAge"></span></p>
+      <p><strong>Date of Birth:</strong> <span id="displayDob"></span></p>
+      <p><strong>Parent:</strong> <span id="displayParentName"></span></p>
+      <p><strong>Email:</strong> <span id="displayParentEmail"></span></p>
+    </div>
+
+    <div class="divider"></div>
+
+
+  <script>
+    const form = document.getElementById("childForm");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const childInfo = {
+        name: document.getElementById("childName").value,
+        grade: document.getElementById("grade").value,
+        age: document.getElementById("age").value,
+        dob: document.getElementById("dob").value,
+        parentName: document.getElementById("parentName").value,
+        parentEmail: document.getElementById("parentEmail").value
+      };
+
+      // Save to local storage
+      localStorage.setItem("childInfo", JSON.stringify(childInfo));
+
+      alert("Child details saved successfully!");
+      displayChildInfo();
+    });
+
+    function displayChildInfo() {
+      const saved = localStorage.getItem("childInfo");
+      if (saved) {
+        const data = JSON.parse(saved);
+        document.getElementById("displayName").textContent = data.name;
+        document.getElementById("displayGrade").textContent = data.grade;
+        document.getElementById("displayAge").textContent = data.age;
+        document.getElementById("displayDob").textContent = data.dob;
+        document.getElementById("displayParentName").textContent = data.parentName;
+        document.getElementById("displayParentEmail").textContent = data.parentEmail;
+
+        document.getElementById("childInfoDisplay").style.display = "block";
+      }
+    }
+
+    // Load data when page opens
+    window.onload = displayChildInfo;
+  </script>
+  
+<script>
+  function renderActivityLog() {
+    const activityLog = JSON.parse(localStorage.getItem('activityLog')) || [];
+    const activityContainer = document.getElementById('activityLog');
+
+    if (activityLog.length === 0) {
+      activityContainer.innerHTML = "<p>No activities recorded yet.</p>";
+    } else {
+      let html = "<ul>";
+      activityLog.forEach(item => {
+        html += `<li><strong>${item.type.toUpperCase()}</strong>: ${item.title} — <em>${item.time}</em></li>`;
+      });
+      html += "</ul>";
+      activityContainer.innerHTML = html;
+    }
+  }
+
+  function resetActivityLog() {
+    if (confirm("Are you sure you want to clear all activity records?")) {
+      localStorage.removeItem('activityLog');
+      renderActivityLog();
+    }
+  }
+
+  // Render activity on page load
+  renderActivityLog();
+</script>
+</body>
+</html>-->
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Parent Registration, Login & Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0eaff;
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background-color: #e5d1f2;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #a678d2;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #8f5bc9;
+    }
+
+    .child-details {
+      background-color: #fff3ff;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .divider {
+      margin: 30px 0;
+      height: 2px;
+      background-color: #c5a4e7;
+    }
+
+    .summary-section {
+      margin-top: 40px;
+    }
+
+    .link {
+      color: #5c3b8f;
+      cursor: pointer;
+    }
+
+    .link:hover {
+      text-decoration: underline;
+    }
+
+    .reset-btn {
+      background-color: #e74c3c;
+      margin-top: 20px;
+    }
+
+    .reset-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Parent Login / Register</h2>
+
+    Registration Form -->
+   <!-- <div id="registrationForm" style="display:none;">
+      <h3>Register</h3>
+      <form id="registerForm">
+        <label for="newUsername">Username:</label>
+        <input type="text" id="newUsername" required>
+
+        <label for="newPassword">Password:</label>
+        <input type="password" id="newPassword" required>
+
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" required>
+
+        <button type="submit">Register</button>
+      </form>
+      <p>Already have an account? <span id="showLoginLink" class="link">Login here</span></p>
+    </div>
+
+    <!-- Login Form 
+    <div id="loginForm" style="display:block;">
+      <h3>Login</h3>
+      <form id="loginFormDetails">
+        <label for="username">Username:</label>
+        <input type="text" id="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+
+        <button type="submit">Login</button>
+      </form>
+      <p>New user? <span id="showRegisterLink" class="link">Register here</span></p>
+    </div>
+
+    <!-- Parent Dashboard (Hidden until logged in)
+    <div id="parentDashboard" style="display:none;">
+      <h2>Parent Dashboard</h2>
+      
+      <h3>Child Activity Summary</h3>
+      <div id="activityLog"></div>
+
+      <button onclick="resetActivityLog()" style="margin-top: 10px; padding: 8px 16px; background-color: #a678d6; color: white; border: none; border-radius: 6px; cursor: pointer;">
+        Reset Activity Log
+      </button>
+
+      <form id="childForm">
+        <label for="childName">Child's Name:</label>
+        <input type="text" id="childName" required>
+
+        <label for="grade">Grade:</label>
+        <input type="text" id="grade" required>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" required>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" required>
+
+        <label for="parentName">Parent's Name:</label>
+        <input type="text" id="parentName" required>
+
+        <label for="parentEmail">Parent's Email:</label>
+        <input type="email" id="parentEmail" required>
+
+        <button type="submit">Submit Child Details</button>
+      </form>
+
+      <div id="childInfoDisplay" class="child-details" style="display:none;">
+        <h4>👨‍👩‍👧‍👦 Saved Child Info</h4>
+        <p><strong>Name:</strong> <span id="displayName"></span></p>
+        <p><strong>Grade:</strong> <span id="displayGrade"></span></p>
+        <p><strong>Age:</strong> <span id="displayAge"></span></p>
+        <p><strong>Date of Birth:</strong> <span id="displayDob"></span></p>
+        <p><strong>Parent:</strong> <span id="displayParentName"></span></p>
+        <p><strong>Email:</strong> <span id="displayParentEmail"></span></p>
+        
+        <!-- Reset Saved Child Info Button 
+        <button class="reset-btn" onclick="resetChildInfo()">Reset Saved Child Info</button>
+      </div>
+
+      <div class="divider"></div>
+    </div>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById("loginFormDetails");
+    const registerForm = document.getElementById("registerForm");
+    const parentDashboard = document.getElementById("parentDashboard");
+    const showLoginLink = document.getElementById("showLoginLink");
+    const showRegisterLink = document.getElementById("showRegisterLink");
+    const registrationForm = document.getElementById("registrationForm");
+    const loginFormSection = document.getElementById("loginForm");
+
+    // Show login form and hide registration form
+    showLoginLink.addEventListener("click", function() {
+      registrationForm.style.display = "none";
+      loginFormSection.style.display = "block";
+    });
+
+    // Show registration form and hide login form
+    showRegisterLink.addEventListener("click", function() {
+      loginFormSection.style.display = "none";
+      registrationForm.style.display = "block";
+    });
+
+    // Handle Registration
+    registerForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById("newUsername").value;
+      const password = document.getElementById("newPassword").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      const user = {
+        username: username,
+        password: password,
+      };
+
+      // Save user data to localStorage
+      localStorage.setItem("user", JSON.stringify(user));
+
+      alert("Registration successful! You can now log in.");
+      registrationForm.style.display = "none";
+      loginFormSection.style.display = "block";
+    });
+
+    // Handle Login
+    loginForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      const savedUser = JSON.parse(localStorage.getItem("user"));
+
+      if (savedUser && savedUser.username === username && savedUser.password === password) {
+        localStorage.setItem("loggedIn", "true");  // Store login status
+        showParentDashboard();  // Show the dashboard
+      } else {
+        alert("Incorrect username or password. Please try again.");
+      }
+    });
+
+    // Show the parent dashboard if already logged in
+    if (localStorage.getItem("loggedIn")) {
+      showParentDashboard();
+    }
+
+    // Function to show the parent dashboard
+    function showParentDashboard() {
+      loginFormSection.style.display = "none";
+      registrationForm.style.display = "none";
+      parentDashboard.style.display = "block";
+      renderActivityLog();  // Render activity log if available
+    }
+
+    // Save child details and display them
+    const childForm = document.getElementById("childForm");
+
+    childForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const childInfo = {
+        name: document.getElementById("childName").value,
+        grade: document.getElementById("grade").value,
+        age: document.getElementById("age").value,
+        dob: document.getElementById("dob").value,
+        parentName: document.getElementById("parentName").value,
+        parentEmail: document.getElementById("parentEmail").value
+      };
+
+      // Save to local storage
+      localStorage.setItem("childInfo", JSON.stringify(childInfo));
+
+      alert("Child details saved successfully!");
+      displayChildInfo();
+    });
+
+    // Display saved child details
+    function displayChildInfo() {
+      const saved = localStorage.getItem("childInfo");
+      if (saved) {
+        const data = JSON.parse(saved);
+        document.getElementById("displayName").textContent = data.name;
+        document.getElementById("displayGrade").textContent = data.grade;
+        document.getElementById("displayAge").textContent = data.age;
+        document.getElementById("displayDob").textContent = data.dob;
+        document.getElementById("displayParentName").textContent = data.parentName;
+        document.getElementById("displayParentEmail").textContent = data.parentEmail;
+        document.getElementById("childInfoDisplay").style.display = "block";
+      }
+    }
+
+    // Reset saved child info
+    function resetChildInfo() {
+      if (confirm("Are you sure you want to reset the saved child information?")) {
+        localStorage.removeItem('childInfo');
+        displayChildInfo();
+        alert("Child info has been reset.");
+      }
+    }
+
+    // Render activity log from localStorage
+    function renderActivityLog() {
+      const activityLog = JSON.parse(localStorage.getItem('activityLog')) || [];
+      const activityContainer = document.getElementById('activityLog');
+
+      if (activityLog.length === 0) {
+        activityContainer.innerHTML = "<p>No activities recorded yet.</p>";
+      } else {
+        let html = "<ul>";
+        activityLog.forEach(item => {
+          html += `<li><strong>${item.type.toUpperCase()}</strong>: ${item.title} — <em>${item.time}</em></li>`;
+        });
+        html += "</ul>";
+        activityContainer.innerHTML = html;
+      }
+    }
+
+    // Reset activity log
+    function resetActivityLog() {
+      if (confirm("Are you sure you want to clear all activity records?")) {
+        localStorage.removeItem('activityLog');
+renderActivityLog();
+}
+}
+
+javascript
+Copy
+Edit
+// Render activity log when page loads
+window.onload = function() {
+  if (localStorage.getItem("loggedIn")) {
+    showParentDashboard();
+  }
+};
+</script> </body> </html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Parent Registration, Login & Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0eaff;
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background-color: #e5d1f2;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #a678d2;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #8f5bc9;
+    }
+
+    .child-details {
+      background-color: #fff3ff;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .divider {
+      margin: 30px 0;
+      height: 2px;
+      background-color: #c5a4e7;
+    }
+
+    .link {
+      color: #5c3b8f;
+      cursor: pointer;
+    }
+
+    .link:hover {
+      text-decoration: underline;
+    }
+
+    .reset-btn {
+      background-color: #e74c3c;
+      margin-top: 20px;
+    }
+
+    .reset-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Parent Login / Register</h2>
+
+    <!-- Registration Form -->
+    <div id="registrationForm" style="display:none;">
+      <h3>Register</h3>
+      <form id="registerForm">
+        <label for="newUsername">Username:</label>
+        <input type="text" id="newUsername" required>
+
+        <label for="newPassword">Password:</label>
+        <input type="password" id="newPassword" required>
+
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" required>
+
+        <button type="submit">Register</button>
+      </form>
+      <p>Already have an account? <span id="showLoginLink" class="link">Login here</span></p>
+    </div>
+
+    <!-- Login Form -->
+    <div id="loginForm" style="display:block;">
+      <h3>Login</h3>
+      <form id="loginFormDetails">
+        <label for="username">Username:</label>
+        <input type="text" id="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+
+        <button type="submit">Login</button>
+      </form>
+      <p>New user? <span id="showRegisterLink" class="link">Register here</span></p>
+    </div>
+
+    <!-- Parent Dashboard -->
+    <div id="parentDashboard" style="display:none;">
+      <h2>Parent Dashboard</h2>
+
+      <h3>Child Activity Summary</h3>
+      <div id="activityLog"></div>
+
+      <button onclick="resetActivityLog()">Reset Activity Log</button>
+
+      <form id="childForm">
+        <label for="childName">Child's Name:</label>
+        <input type="text" id="childName" required>
+
+        <label for="grade">Grade:</label>
+        <input type="text" id="grade" required>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" required>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" required>
+
+        <label for="parentName">Parent's Name:</label>
+        <input type="text" id="parentName" required>
+
+        <label for="parentEmail">Parent's Email:</label>
+        <input type="email" id="parentEmail" required>
+
+        <button type="submit">Submit Child Details</button>
+      </form>
+
+      <div id="childInfoDisplay" class="child-details" style="display:none;">
+        <h4>👨‍👩‍👧‍👦 Saved Child Info</h4>
+        <p><strong>Name:</strong> <span id="displayName"></span></p>
+        <p><strong>Grade:</strong> <span id="displayGrade"></span></p>
+        <p><strong>Age:</strong> <span id="displayAge"></span></p>
+        <p><strong>Date of Birth:</strong> <span id="displayDob"></span></p>
+        <p><strong>Parent:</strong> <span id="displayParentName"></span></p>
+        <p><strong>Email:</strong> <span id="displayParentEmail"></span></p>
+
+        <button class="reset-btn" onclick="resetChildInfo()">Reset Saved Child Info</button>
+      </div>
+
+      <div class="divider"></div>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById("loginFormDetails");
+    const registerForm = document.getElementById("registerForm");
+    const parentDashboard = document.getElementById("parentDashboard");
+    const showLoginLink = document.getElementById("showLoginLink");
+    const showRegisterLink = document.getElementById("showRegisterLink");
+    const registrationForm = document.getElementById("registrationForm");
+    const loginFormSection = document.getElementById("loginForm");
+
+    showLoginLink.addEventListener("click", () => {
+      registrationForm.style.display = "none";
+      loginFormSection.style.display = "block";
+    });
+
+    showRegisterLink.addEventListener("click", () => {
+      loginFormSection.style.display = "none";
+      registrationForm.style.display = "block";
+    });
+
+    // Registration
+    registerForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("newUsername").value;
+      const password = document.getElementById("newPassword").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+      if (users.find(u => u.username === username)) {
+        alert("Username already exists!");
+        return;
+      }
+
+      users.push({ username, password });
+      localStorage.setItem("users", JSON.stringify(users));
+      alert("Registered successfully!");
+      registrationForm.style.display = "none";
+      loginFormSection.style.display = "block";
+    });
+
+    // Login
+    loginForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const matchedUser = users.find(u => u.username === username && u.password === password);
+
+      if (matchedUser) {
+        localStorage.setItem("loggedIn", "true");
+        localStorage.setItem("currentUser", username);
+        showParentDashboard();
+      } else {
+        alert("Invalid credentials.");
+      }
+    });
+
+    function showParentDashboard() {
+      loginFormSection.style.display = "none";
+      registrationForm.style.display = "none";
+      parentDashboard.style.display = "block";
+      displayChildInfo();
+      renderActivityLog();
+    }
+
+    // Save and display child info
+    const childForm = document.getElementById("childForm");
+    childForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const currentUser = localStorage.getItem("currentUser");
+
+      const childInfo = {
+        name: document.getElementById("childName").value,
+        grade: document.getElementById("grade").value,
+        age: document.getElementById("age").value,
+        dob: document.getElementById("dob").value,
+        parentName: document.getElementById("parentName").value,
+        parentEmail: document.getElementById("parentEmail").value
+      };
+
+      localStorage.setItem(`childInfo_${currentUser}`, JSON.stringify(childInfo));
+      alert("Child details saved!");
+      displayChildInfo();
+    });
+
+    function displayChildInfo() {
+      const currentUser = localStorage.getItem("currentUser");
+      const saved = localStorage.getItem(`childInfo_${currentUser}`);
+      if (saved) {
+        const data = JSON.parse(saved);
+        document.getElementById("displayName").textContent = data.name;
+        document.getElementById("displayGrade").textContent = data.grade;
+        document.getElementById("displayAge").textContent = data.age;
+        document.getElementById("displayDob").textContent = data.dob;
+        document.getElementById("displayParentName").textContent = data.parentName;
+        document.getElementById("displayParentEmail").textContent = data.parentEmail;
+        document.getElementById("childInfoDisplay").style.display = "block";
+      }
+    }
+
+    function resetChildInfo() {
+      const currentUser = localStorage.getItem("currentUser");
+      if (confirm("Reset child info?")) {
+        localStorage.removeItem(`childInfo_${currentUser}`);
+        document.getElementById("childInfoDisplay").style.display = "none";
+        alert("Child info reset.");
+      }
+    }
+
+    function renderActivityLog() {
+      const currentUser = localStorage.getItem("currentUser");
+      const activityLog = JSON.parse(localStorage.getItem(`activityLog_${currentUser}`)) || [];
+      const activityContainer = document.getElementById('activityLog');
+
+      if (activityLog.length === 0) {
+        activityContainer.innerHTML = "<p>No activities recorded yet.</p>";
+      } else {
+        let html = "<ul>";
+        activityLog.forEach(item => {
+          html += `<li><strong>${item.type.toUpperCase()}</strong>: ${item.title} — <em>${item.time}</em></li>`;
+        });
+        html += "</ul>";
+        activityContainer.innerHTML = html;
+      }
+    }
+
+    function resetActivityLog() {
+      const currentUser = localStorage.getItem("currentUser");
+      if (confirm("Clear all activity logs?")) {
+        localStorage.removeItem(`activityLog_${currentUser}`);
+        renderActivityLog();
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedIn");
+      localStorage.removeItem("currentUser");
+      window.location.reload();
+    }
+
+    // Auto-login
+    window.onload = function() {
+      if (localStorage.getItem("loggedIn") && localStorage.getItem("currentUser")) {
+        showParentDashboard();
+      }
+    };
+  </script>
+</body>
+</html>
+
+
+

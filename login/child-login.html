@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Child Login</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Child Login</h2>
+    <input type="text" id="child-name" placeholder="Enter your name" />
+    <button onclick="childLogin()">Login</button>
+  </div>
+  <div id="child-dashboard" style="display: none;">
+    <h2>Welcome, Child!</h2>
+    <button onclick="location.href='stories.html'">Read Stories</button>
+    <button onclick="location.href='games.html'">Play Games</button>
+  </div>
+  
+  <script>
+    function childLogin() {
+      const name = document.getElementById("child-name").value;
+      document.getElementById('login-container').style.display = 'none';
+document.getElementById('child-dashboard').style.display = 'block';
+
+      if (name.trim()) {
+        // Redirect to main index page
+        window.location.href = "../index.html";
+      } else {
+        alert("Please enter your name.");
+      }
+    }
+  </script>
+</body>
+</html>

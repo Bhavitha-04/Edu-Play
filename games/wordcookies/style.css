@@ -1,0 +1,41 @@
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background-color: #f9f0e1;
+    text-align: center;
+}
+
+h1 {
+    color: #8e44ad;
+}
+
+.game-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+#word-bank {
+    background-color: #f7e1b5;
+    padding: 10px;
+    border-radius: 8px;
+    width: 300px;
+}
+
+#cookie-board {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    background-color: #eae1e1;
+    padding: 20px;
+    border-radius: 8px;
+    width: 500px;
+}
+
+.cookie-letter {
+    background-color: #fdd835;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}

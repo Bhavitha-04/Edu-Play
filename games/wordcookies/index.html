@@ -1,0 +1,300 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Cookies</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>🍪 Word Cookies 🍪</h1>
+    <div class="game-container">
+        <div id="word-bank">
+            <h3>Words to Find:</h3>
+            
+        </div>
+        <div id="cookie-board">
+            
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Word Cookies Game</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f3e5f5;
+      color: #7b1fa2;
+      text-align: center;
+    }
+
+    .game-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      background-color: #6a1b9a;
+      padding: 15px;
+      color: white;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    select {
+      padding: 6px 12px;
+      border-radius: 5px;
+      background-color: #ab47bc;
+      color: white;
+      border: none;
+      margin-top: 10px;
+    }
+
+    .word-slots {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    .slot {
+      width: 40px;
+      height: 40px;
+      margin: 5px;
+      background-color: #ffffff;
+      border: 2px solid #d1c4e9;
+      border-radius: 8px;
+      line-height: 40px;
+      font-size: 22px;
+      color: #8e24aa;
+      font-weight: bold;
+    }
+
+    .letter-wheel {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .letter {
+      width: 50px;
+      height: 50px;
+      background-color: #ab47bc;
+      color: white;
+      border-radius: 50%;
+      line-height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      user-select: none;
+    }
+
+    .letter:hover {
+      background-color: #6a1b9a;
+    }
+
+    .controls {
+      margin: 15px 0;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin: 0 5px;
+      background-color: #8e24aa;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #6a1b9a;
+    }
+
+    #feedback-message {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #7b1fa2;
+      background-color: #d1c4e9;
+      padding: 10px;
+      border-radius: 8px;
+      display: inline-block;
+    }
+
+    #word-meaning {
+      margin-top: 10px;
+      color: #4a148c;
+      font-size: 16px;
+    }
+
+    #score {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #6a1b9a;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <header>
+      <h1>Word Cookies Game 🍪</h1>
+      <label for="grade-select">Select Grade:</label>
+      <select id="grade-select" onchange="loadWords()">
+        <option value="1">Grade 1</option>
+        <option value="2">Grade 2</option>
+        <option value="3">Grade 3</option>
+        <option value="4">Grade 4</option>
+        <option value="5">Grade 5</option>
+      </select>
+    </header>
+
+    <div id="score">Score: 0</div>
+    <div class="word-slots" id="word-slots"></div>
+    <div class="letter-wheel" id="letter-wheel"></div>
+
+    <div class="controls">
+      <button onclick="resetLetters()">Reset</button>
+      <button onclick="shuffleLetters()">Shuffle</button>
+      <button onclick="loadWords()">New Word</button>
+    </div>
+
+    <div id="feedback-message"></div>
+    <div id="word-meaning"></div>
+  </div>
+
+  <script>
+    const wordsByGrade = {
+      1: ['cat', 'dog', 'sun', 'hat', 'run', 'bat', 'map', 'fan', 'pen', 'bag'],
+      2: ['apple', 'chair', 'brush', 'green', 'plant', 'truck', 'house', 'cloud'],
+      3: ['school', 'garden', 'pencil', 'window', 'rocket', 'orange', 'pillow'],
+      4: ['library', 'teacher', 'picture', 'holiday', 'present', 'country', 'freedom'],
+      5: ['language', 'activity', 'elephant', 'triangle', 'mountain', 'knowledge', 'adventure']
+    };
+
+    let currentWord = '';
+    let selectedLetters = [];
+    let score = 0;
+
+    function loadWords() {
+      const grade = document.getElementById('grade-select').value;
+      const wordList = wordsByGrade[grade];
+      currentWord = wordList[Math.floor(Math.random() * wordList.length)].toUpperCase();
+      selectedLetters = [];
+
+      document.getElementById('feedback-message').innerText = '';
+      document.getElementById('word-meaning').innerText = '';
+
+      const slotsContainer = document.getElementById('word-slots');
+      slotsContainer.innerHTML = '';
+      for (let i = 0; i < currentWord.length; i++) {
+        const slot = document.createElement('div');
+        slot.classList.add('slot');
+        slot.dataset.index = i;
+        slotsContainer.appendChild(slot);
+      }
+
+      displayLetters(currentWord.split(''));
+    }
+
+    function displayLetters(letters) {
+      const wheel = document.getElementById('letter-wheel');
+      wheel.innerHTML = '';
+
+      const shuffled = [...letters].sort(() => Math.random() - 0.5);
+
+      shuffled.forEach(letter => {
+        const el = document.createElement('div');
+        el.classList.add('letter');
+        el.innerText = letter;
+        el.addEventListener('click', function () {
+          selectLetter(letter, el);
+        });
+        wheel.appendChild(el);
+      });
+    }
+
+    function selectLetter(letter, el) {
+      const slots = document.querySelectorAll('.slot');
+      for (let slot of slots) {
+        if (!slot.innerText) {
+          slot.innerText = letter;
+          selectedLetters.push({ letter, el });
+          el.classList.add('used-letter');
+          el.style.pointerEvents = 'none';
+          break;
+        }
+      }
+
+      if (selectedLetters.length === currentWord.length) {
+        checkWord();
+      }
+    }
+
+    function checkWord() {
+      const formed = selectedLetters.map(obj => obj.letter).join('');
+      const feedback = document.getElementById('feedback-message');
+      const meaningBox = document.getElementById('word-meaning');
+
+      if (formed === currentWord) {
+        feedback.innerText = '✅ Correct! Well done!';
+        score += 2;
+        document.getElementById('score').innerText = `Score: ${score}`;
+        fetchDefinition(currentWord);
+      } else {
+        feedback.innerText = '❌ Try again!';
+        meaningBox.innerText = '';
+      }
+    }
+
+    function resetLetters() {
+      const slots = document.querySelectorAll('.slot');
+      slots.forEach(slot => slot.innerText = '');
+      selectedLetters.forEach(obj => {
+        obj.el.style.pointerEvents = 'auto';
+        obj.el.classList.remove('used-letter');
+      });
+      selectedLetters = [];
+
+      document.getElementById('feedback-message').innerText = '';
+      document.getElementById('word-meaning').innerText = '';
+    }
+
+    function shuffleLetters() {
+      if (currentWord) displayLetters(currentWord.split(''));
+    }
+
+    function fetchDefinition(word) {
+      fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`)
+        .then(response => response.json())
+        .then(data => {
+          const meaningBox = document.getElementById('word-meaning');
+          if (data && data.length > 0 && data[0].meanings.length > 0) {
+            const definition = data[0].meanings[0].definitions[0].definition;
+            meaningBox.innerText = `📖 Meaning of "${word.toLowerCase()}": ${definition}`;
+          } else {
+            meaningBox.innerText = `📖 Meaning not found for "${word.toLowerCase()}"`;
+          }
+        })
+        .catch(error => {
+          document.getElementById('word-meaning').innerText = '📖 Error fetching meaning.';
+        });
+    }
+
+    // Load initial word
+    window.onload = loadWords;
+  </script>
+</body>
+</html>

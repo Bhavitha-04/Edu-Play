@@ -1,0 +1,223 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tic-Tac-Toe</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Tic-Tac-Toe</h1>
+  <div id="game-board" class="board">
+    <div class="cell" onclick="makeMove(0)"></div>
+    <div class="cell" onclick="makeMove(1)"></div>
+    <div class="cell" onclick="makeMove(2)"></div>
+    <div class="cell" onclick="makeMove(3)"></div>
+    <div class="cell" onclick="makeMove(4)"></div>
+    <div class="cell" onclick="makeMove(5)"></div>
+    <div class="cell" onclick="makeMove(6)"></div>
+    <div class="cell" onclick="makeMove(7)"></div>
+    <div class="cell" onclick="makeMove(8)"></div>
+  </div>
+  <button onclick="resetGame()">Reset</button>
+  <script src="script.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="tictactoe.css">
+</head>
+<body>
+    <h1> 🦄 TIC TAC TOE 🐙</h1>
+    <div class="board" id="board"></div>
+    <p id="message"></p>
+    <button id="restartButton">Restart</button>
+    <script src="tictactoe.js"></script>
+</body>
+</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tic Tac Toe</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background-color: #f3e5f5;
+    }
+
+    h1 {
+      color: #8e24aa;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 5px;
+      margin: 20px auto;
+      width: 320px;
+      padding: 10px;
+      background-color: #6a1b9a;
+      border-radius: 10px;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      border: 2px solid black;
+      cursor: pointer;
+      background-color: #ffffff;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .cell:hover {
+      background-color: #d1c4e9;
+    }
+
+    .cell.taken {
+      cursor: not-allowed;
+    }
+
+    .winning-cell {
+      background-color: #ab47bc !important;
+      color: white !important;
+    }
+
+    #message {
+      font-size: 20px;
+      margin-top: 10px;
+      color: #7b1fa2;
+      font-weight: bold;
+    }
+
+    button {
+      background-color: #8e24aa;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #6a1b9a;
+    }
+  </style>
+</head>
+<body>
+  <h1>🦄 TIC TAC TOE 🐙</h1>
+  <div class="board" id="board"></div>
+  <p id="message"></p>
+  <button id="restartButton">Restart</button>
+
+  <script>
+    const board = document.getElementById('board');
+    const message = document.getElementById('message');
+    const restartButton = document.getElementById('restartButton');
+
+    let currentPlayer = '🦄';
+    let gameActive = true;
+    let gameState = Array(9).fill('');
+
+    const winningCombinations = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ];
+
+    function handleCellClick(e) {
+      const cell = e.target;
+      const index = parseInt(cell.dataset.index);
+
+      if (gameState[index] !== '' || !gameActive) return;
+
+      gameState[index] = currentPlayer;
+      cell.textContent = currentPlayer;
+      cell.classList.add('taken');
+
+      if (checkWin()) {
+        message.textContent = `🎉 Player ${currentPlayer} Wins!`;
+        gameActive = false;
+        highlightWinningCells();
+      } else if (gameState.every(cell => cell !== '')) {
+        message.textContent = "It's a Draw!";
+        gameActive = false;
+      } else {
+        currentPlayer = currentPlayer === '🦄' ? '🐙' : '🦄';
+        message.textContent = `Player ${currentPlayer}'s Turn`;
+      }
+    }
+
+    function checkWin() {
+      return winningCombinations.some(combination => {
+        const [a, b, c] = combination;
+        return (
+          gameState[a] &&
+          gameState[a] === gameState[b] &&
+          gameState[b] === gameState[c]
+        );
+      });
+    }
+
+    function highlightWinningCells() {
+      winningCombinations.forEach(combination => {
+        const [a, b, c] = combination;
+        if (
+          gameState[a] &&
+          gameState[a] === gameState[b] &&
+          gameState[b] === gameState[c]
+        ) {
+          document.querySelector(`[data-index='${a}']`).classList.add('winning-cell');
+          document.querySelector(`[data-index='${b}']`).classList.add('winning-cell');
+          document.querySelector(`[data-index='${c}']`).classList.add('winning-cell');
+        }
+      });
+    }
+
+    function restartGame() {
+      currentPlayer = '🦄';
+      gameActive = true;
+      gameState = Array(9).fill('');
+      message.textContent = `Player ${currentPlayer}'s Turn`;
+      board.innerHTML = '';
+      createBoard();
+    }
+
+    function createBoard() {
+      for (let i = 0; i < 9; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.dataset.index = i;
+        cell.addEventListener('click', handleCellClick);
+        board.appendChild(cell);
+      }
+    }
+
+    // Initialize
+    createBoard();
+    message.textContent = `Player ${currentPlayer}'s Turn`;
+    restartButton.addEventListener('click', restartGame);
+  </script>
+</body>
+</html>
+
+
+

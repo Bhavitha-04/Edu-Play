@@ -1,0 +1,322 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Website Controls</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0eaff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background-color: #e5d1f2;
+      padding: 30px;
+      border-radius: 15px;
+      width: 300px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 15px;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+    }
+    button {
+      background-color: #a678d2;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #8f5bc9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>🧭 WEBSITE CONTROLS</h2>
+    <p>Enter a website URL to block:</p>
+    <input type="text" id="websiteControl" placeholder="e.g. youtube.com" />
+    <button onclick="blockWebsite()">Block</button>
+  </div>
+
+  <script>
+    function blockWebsite() {
+      const site = document.getElementById("websiteControl").value.trim();
+      if (site) {
+        alert(`Website "${site}" will be blocked (demo only).`);
+      } else {
+        alert("Please enter a website URL.");
+      }
+    }
+  </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Screen Time Limiter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
+
+    #screenTimeContainer {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    input[type="number"] {
+      padding: 5px;
+      font-size: 16px;
+      width: 100px;
+    }
+
+    button {
+      padding: 8px 16px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="screenTimeContainer">
+    <label for="screenTime">Set screen time (in minutes): </label>
+    <input type="number" id="screenTime" min="1" />
+    <button onclick="startScreenTimer()">Start Timer</button>
+    <button onclick="resetTimer()">Reset Timer</button>
+  </div>
+
+  <script>
+    let timeoutId;
+
+    function startScreenTimer() {
+      const minutes = parseInt(document.getElementById('screenTime').value);
+      if (!minutes || minutes < 1) {
+        alert("Please enter a valid time.");
+        return;
+      }
+
+      const limitInMs = minutes * 60 * 1000;
+      const startTime = Date.now();
+
+      // Save timer details
+      localStorage.setItem("screenStartTime", startTime);
+      localStorage.setItem("screenLimit", limitInMs);
+
+      timeoutId = setTimeout(blockWebsite, limitInMs);
+    }
+
+    function resetTimer() {
+      localStorage.removeItem("screenStartTime");
+      localStorage.removeItem("screenLimit");
+      if (timeoutId) clearTimeout(timeoutId);
+      location.reload();
+    }
+
+    function blockWebsite() {
+      document.body.innerHTML = `
+        <div style="text-align:center; margin-top: 20%;">
+          <h1>Screen time is over!</h1>
+          <p>This site is now locked based on your timer setting.</p>
+          <button onclick="resetTimer()" style="padding: 10px 20px; font-size: 16px;">Reset Timer</button>
+        </div>
+      `;
+      document.body.style.backgroundColor = "#000";
+      document.body.style.color = "#fff";
+      document.body.style.pointerEvents = "none";
+      setTimeout(() => {
+        document.body.style.pointerEvents = "auto"; // Re-enable for reset button
+      }, 100);
+    }
+
+    window.onload = function () {
+      const savedStart = localStorage.getItem("screenStartTime");
+      const savedLimit = localStorage.getItem("screenLimit");
+
+      if (savedStart && savedLimit) {
+        const now = Date.now();
+        const elapsed = now - parseInt(savedStart);
+        const remaining = parseInt(savedLimit) - elapsed;
+
+        if (remaining <= 0) {
+          blockWebsite();
+        } else {
+          timeoutId = setTimeout(blockWebsite, remaining);
+        }
+      }
+    };
+  </script>
+</body>
+</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enhanced Screen Time Limiter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
+
+    #screenTimeContainer {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    input[type="number"], input[type="password"] {
+      padding: 5px;
+      font-size: 16px;
+      width: 150px;
+    }
+
+    button {
+      padding: 8px 16px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #countdown {
+      font-size: 24px;
+      margin-top: 20px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="screenTimeContainer">
+    <label for="screenTime">Set screen time (in minutes): </label>
+    <input type="number" id="screenTime" min="1" />
+    <button onclick="startScreenTimer()">Start Timer</button>
+    <button onclick="resetTimer()">Reset Timer</button>
+    <div id="countdown"></div>
+  </div>
+
+  <script>
+    let timeoutId;
+    let countdownInterval;
+    const unlockPassword = "parent123"; // <- You can change this
+
+    function startScreenTimer() {
+      const minutes = parseInt(document.getElementById('screenTime').value);
+      if (!minutes || minutes < 1) {
+        alert("Please enter a valid time.");
+        return;
+      }
+
+      const limitInMs = minutes * 60 * 1000;
+      const startTime = Date.now();
+
+      localStorage.setItem("screenStartTime", startTime);
+      localStorage.setItem("screenLimit", limitInMs);
+
+      startCountdown(limitInMs);
+      timeoutId = setTimeout(blockWebsite, limitInMs);
+    }
+
+    function resetTimer() {
+      localStorage.removeItem("screenStartTime");
+      localStorage.removeItem("screenLimit");
+      clearInterval(countdownInterval);
+      if (timeoutId) clearTimeout(timeoutId);
+      location.reload();
+    }
+
+    function blockWebsite() {
+      clearInterval(countdownInterval);
+      const body = document.body;
+      body.innerHTML = `
+        <div style="text-align:center; margin-top: 20%;">
+          <h1>⛔ Screen time is over!</h1>
+          <p>This site is now locked.</p>
+          <input type="password" id="unlockInput" placeholder="Enter parent password" />
+          <br/>
+          <button onclick="unlockSite()">Unlock</button>
+        </div>
+      `;
+      body.style.backgroundColor = "#000";
+      body.style.color = "#fff";
+    }
+
+    function unlockSite() {
+      const input = document.getElementById("unlockInput").value;
+      if (input === unlockPassword) {
+        resetTimer();
+      } else {
+        alert("Incorrect password.");
+      }
+    }
+
+    function startCountdown(remainingMs) {
+      const countdown = document.getElementById("countdown");
+      clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        const now = Date.now();
+        const savedStart = localStorage.getItem("screenStartTime");
+        const savedLimit = localStorage.getItem("screenLimit");
+        if (!savedStart || !savedLimit) {
+          countdown.textContent = "";
+          clearInterval(countdownInterval);
+          return;
+        }
+
+        const elapsed = now - parseInt(savedStart);
+        const timeLeft = parseInt(savedLimit) - elapsed;
+
+        if (timeLeft <= 0) {
+          countdown.textContent = "Time's up!";
+          clearInterval(countdownInterval);
+          blockWebsite();
+        } else {
+          const minutes = Math.floor(timeLeft / 60000);
+          const seconds = Math.floor((timeLeft % 60000) / 1000);
+          countdown.textContent = `⏳ Time remaining: ${minutes}:${seconds.toString().padStart(2, "0")}`;
+        }
+      }, 1000);
+    }
+
+    window.onload = function () {
+      const savedStart = localStorage.getItem("screenStartTime");
+      const savedLimit = localStorage.getItem("screenLimit");
+
+      if (savedStart && savedLimit) {
+        const now = Date.now();
+        const elapsed = now - parseInt(savedStart);
+        const remaining = parseInt(savedLimit) - elapsed;
+
+        if (remaining <= 0) {
+          blockWebsite();
+        } else {
+          startCountdown(remaining);
+          timeoutId = setTimeout(blockWebsite, remaining);
+        }
+      }
+    };
+  </script>
+
+</body>
+</html>
+
